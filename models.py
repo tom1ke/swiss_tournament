@@ -30,7 +30,13 @@ class Tournament:
             time_control=input("Bullet, Blitz ou Coup rapide : "),
             description=input("Description du tournoi : ")
         )
-    
+
+    def update_player_list(self, player_instance):
+        self.player_list.append(player_instance)
+
+    def update_round_list(self, round_instance):
+        self.round_list.append(round_instance)
+
     def save_tournament(self):
         pass
 
@@ -44,7 +50,7 @@ class Player:
         self.ranking = ranking
 
     def __repr__(self):
-        return f"{self.last_name} {self.first_name}, né le {self.date_of_birth}, {self.gender}, classé {self.ranking}"
+        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking})"
 
     @classmethod
     def create_player(cls):
