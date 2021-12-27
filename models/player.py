@@ -9,14 +9,7 @@ class Player:
         self.ranking = ranking
 
     def __repr__(self):
-        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking})"
+        pass
 
-    @classmethod
-    def create_player(cls):
-        return cls(
-            last_name=input("Nom de famille : "),
-            first_name=input("Prénom : "),
-            date_of_birth=input("Date de naissance JJ/MM/AAA : "),
-            gender=input("Sexe : "),
-            ranking=input("Classement : ")
-        )
+    def __str__(self):
+        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking})"

@@ -1,8 +1,14 @@
 
+
 class Match:
-    def __init__(self, player_pair, result):
-        self.player_pair = player_pair
-        self.result = result
+
+    def __init__(self):
+        self.player1 = []
+        self.player2 = []
+        self.player_pair = (self.player1, self.player2)
+
+    def add_players(self):
+        pass
 
     def input_result(self):
         pass
