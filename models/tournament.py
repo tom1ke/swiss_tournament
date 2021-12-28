@@ -1,4 +1,3 @@
-from models.player import Player
 
 
 class Tournament:
@@ -15,9 +14,6 @@ class Tournament:
         self.round_list = []
         self.player_list = []
 
-    def __repr__(self):
-        pass
-
     def __str__(self):
         return f"{self.name}, du {self.start_date} au {self.end_date}, " \
                f"à {self.location} en {self.round_total} tours, " \
@@ -25,12 +21,6 @@ class Tournament:
                f"{self.description} \n " \
                f"Détails des tours : {self.round_list} \n " \
                f"Liste des joueurs : {self.player_list}"
-
-    def add_player(self):
-        self.player_list.append(Player)
-
-    def update_round_list(self, round_instance):
-        self.round_list.append(round_instance)
 
     def serialize_tournament(self):
         return {
