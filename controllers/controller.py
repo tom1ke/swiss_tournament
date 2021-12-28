@@ -14,7 +14,6 @@ class Controller:
             current_tournament = self.instantiate_tournament()
             while len(current_tournament.player_list) < 8:
                 current_tournament.player_list.append(self.add_players())
-            print(current_tournament.player_list)
         else:
             self.view.end_program()
 
