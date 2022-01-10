@@ -12,19 +12,21 @@ class Controller:
 
         if self.view.input_main() == str(1):
             current_tournament = self.instantiate_tournament()
+            current_tournament.serialize_tournament()
+
             while len(current_tournament.player_list) < 8:
                 current_tournament.player_list.append(self.add_players())
+
+            sorted(current_tournament.player_list, key=lambda player: player.ranking, reverse=True)
+            print(*current_tournament.player_list)
+
         else:
             self.view.end_program()
 
     def instantiate_tournament(self):
 
-        t = self.view.input_tournament()
-
-        return Tournament(t[0], t[1], t[2], t[3], t[4], t[5])
+        return Tournament(*self.view.input_tournament())
 
     def add_players(self):
 
-        p = self.view.input_player()
-
-        return Player(p[0], p[1], p[2], p[3], p[4])
+        return Player(*self.view.input_player())
