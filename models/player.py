@@ -9,7 +9,7 @@ class Player:
         self.ranking = ranking
 
     def __repr__(self):
-        pass
+        return self.__str__()
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking})"

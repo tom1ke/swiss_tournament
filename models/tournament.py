@@ -14,6 +14,9 @@ class Tournament:
         self.round_list = []
         self.player_list = []
 
+    def __repr__(self):
+        return self.__str__()
+
     def __str__(self):
         return f"{self.name}, du {self.start_date} au {self.end_date}, " \
                f"à {self.location} en {self.round_total} tours, " \
