@@ -1,3 +1,4 @@
+from util import NUMBER_OF_PLAYERS
 
 
 class View:
@@ -31,7 +32,8 @@ class View:
         return name, location, start_date, end_date, time_control, description
 
     def input_player(self):
-        print("Ajoutez 8 joueurs au tournoi : ")
+        print()
+        print(f"Ajoutez {NUMBER_OF_PLAYERS} joueurs au tournoi : ")
         print()
 
         last_name = input("Nom de famille : ")
