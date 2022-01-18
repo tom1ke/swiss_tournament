@@ -1,8 +1,9 @@
+from util import NUMBER_OF_ROUNDS
 
 
 class Tournament:
 
-    round_total = 4
+    round_total = NUMBER_OF_ROUNDS
 
     def __init__(self, name, location, start_date, end_date, time_control, description):
         self.name = name
@@ -34,6 +35,9 @@ class Tournament:
             "time_control": self.time_control,
             "description": self.description,
             "round_total": self.round_total,
-            "round_list": self.round_list,
-            "player_list": self.player_list
+            "player_list": self.serialize_player_list()
         }
+
+    def serialize_player_list(self):
+        for player in self.player_list:
+            return player.serialize_player()
