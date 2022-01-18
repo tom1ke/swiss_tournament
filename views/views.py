@@ -7,18 +7,21 @@ class View:
         print("À bientôt !")
 
     def input_main(self):
+        print()
         print("Centre Échecs : Bienvenue sur le gestionnaire de tournoi")
         print()
         print("Menu : ")
         print()
         print("1. Créer un tournoi \n"
               "2. Charger dernière sauvegarde \n"
-              "3. Quitter")
+              "3. Générer le prochain tour \n"
+              "4. Quitter")
         print()
 
         return input("Entrez le numéro de l'option choisie : ")
 
     def input_tournament(self):
+        print()
         print("Création d'un nouveau tournoi : ")
         print()
 
