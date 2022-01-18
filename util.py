@@ -10,4 +10,5 @@ Menu options
 """
 CREATE_TOURNAMENT = str(1)
 LOAD_PREVIOUS_STATE = str(2)
-QUIT = str(3)
+GENERATE_ROUND = str(3)
+QUIT = str(4)
