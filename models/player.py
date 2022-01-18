@@ -8,11 +8,13 @@ class Player:
         self.gender = gender
         self.ranking = ranking
 
+        self.score = 0
+
     def __repr__(self):
         return self.__str__()
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking})"
+        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking}, {self.score})"
 
     def serialize_player(self):
         return {
@@ -20,5 +22,6 @@ class Player:
             "first_name": self.first_name,
             "date_of_birth": self.date_of_birth,
             "gender": self.gender,
-            "ranking": self.ranking
+            "ranking": self.ranking,
+            "score": self.score
         }
