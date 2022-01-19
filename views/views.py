@@ -13,9 +13,9 @@ class View:
         print("Menu : ")
         print()
         print("1. Créer un tournoi \n"
-              "2. Charger dernière sauvegarde \n"
-              "3. Générer le prochain tour \n"
-              "4. Quitter")
+              "2. Générer le prochain tour \n"
+              "3. Charger la dernière sauvegarde \n"
+              "4. Sauvegarder & quitter")
         print()
 
         return input("Entrez le numéro de l'option choisie : ")
