@@ -35,9 +35,9 @@ class Tournament:
             "time_control": self.time_control,
             "description": self.description,
             "round_total": self.round_total,
-            "player_list": self.serialize_player_list()
+            "player_list": self.serialize_player_list(self.player_list)
         }
 
-    def serialize_player_list(self):
-        for player in self.player_list:
-            return player.serialize_player()
+    def serialize_player_list(self, player_list):
+        for player in player_list:
+            return player.__dict__
