@@ -1,17 +1,13 @@
-from models.database import DataBase
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
-from util import NUMBER_OF_PLAYERS, CREATE_TOURNAMENT, LOAD_PREVIOUS_STATE, GENERATE_ROUND, QUIT
+from util import *
 
 
 class Controller:
 
     def __init__(self):
         self.view = View()
-        self.db = DataBase("data.json", indent=4)
-        self.table_tournaments = self.db.table("Tournaments")
-        self.table_players = self.db.table("Players")
 
     def run(self):
 
@@ -25,14 +21,21 @@ class Controller:
                 while len(current_tournament.player_list) < NUMBER_OF_PLAYERS:
                     current_player = self.add_player()
                     current_tournament.player_list.append(current_player)
-                    self.table_players.insert(current_player.serialize_player())
+                    table_players.insert(current_player.serialize_player())
 
-                self.table_tournaments.insert(current_tournament.serialize_tournament())
+                table_tournament.insert(current_tournament.serialize_tournament())
 
                 print(current_tournament)
 
+                operation = self.view.input_main()
+
             if operation == GENERATE_ROUND:
-                current_tournament.round_list.append(self.matching_player(current_tournament.player_list))
+                print("Rounds")
+                operation = self.view.input_main()
+
+            if operation == LOAD_PREVIOUS_STATE:
+                print("Load")
+                operation = self.view.input_main()
 
         self.view.end_program()
 
@@ -48,22 +51,4 @@ class Controller:
         lower_half = sorted_players[len(sorted_players) // 2:]
 
         return dict(zip(upper_half, lower_half))
-
-    def load_all_data(self):
-        self.db.all()
-
-    def load_tournament(self):
-        self.table_tournaments.all()
-
-    def load_players(self):
-        self.table_players.all()
-
-    def clear_all_data(self):
-        self.db.truncate()
-
-    def clear_table_players(self):
-        self.table_players.truncate()
-
-    def clear_table_tournaments(self):
-        self.table_tournaments.truncate()
 
