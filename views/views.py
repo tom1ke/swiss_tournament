@@ -3,14 +3,17 @@ from util import NUMBER_OF_PLAYERS
 
 class View:
 
+    def welcome(self):
+        print()
+        print("Centre Échecs : Bienvenue sur le gestionnaire de tournoi")
+        print()
+
     def end_program(self):
         print("À bientôt !")
 
     def input_main(self):
         print()
-        print("Centre Échecs : Bienvenue sur le gestionnaire de tournoi")
-        print()
-        print("Menu : ")
+        print("Menu principal : ")
         print()
         print("1. Créer un tournoi \n"
               "2. Générer le prochain tour \n"
