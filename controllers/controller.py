@@ -10,13 +10,13 @@ class Controller:
         self.view = View()
 
     def run(self):
-
+        self.view.welcome()
         operation = self.view.input_main()
 
         while operation != QUIT:
 
             if operation == CREATE_TOURNAMENT:
-                current_tournament = self.instantiate_tournament()
+                current_tournament = self.create_tournament()
 
                 while len(current_tournament.player_list) < NUMBER_OF_PLAYERS:
                     current_player = self.add_player()
@@ -27,25 +27,38 @@ class Controller:
 
                 print(current_tournament)
 
-                operation = self.view.input_main()
+            elif operation == GENERATE_ROUND:
+                current_tournament = self.load_tournament()
+                self.match_player(current_tournament.player_list)
 
-            if operation == GENERATE_ROUND:
-                print("Rounds")
-                operation = self.view.input_main()
+                print(current_tournament)
 
-            if operation == LOAD_PREVIOUS_STATE:
-                print("Load")
-                operation = self.view.input_main()
+            elif operation == LOAD_PREVIOUS_STATE:
+                current_tournament = self.load_tournament()
+                print(current_tournament)
+                self.load_players(current_tournament)
+
+                print(current_tournament)
+
+            operation = self.view.input_main()
 
         self.view.end_program()
 
-    def instantiate_tournament(self):
+    def create_tournament(self):
         return Tournament(*self.view.input_tournament())
+
+    def load_tournament(self):
+        return Tournament(**(table_tournament.all()[-1]))
 
     def add_player(self):
         return Player(*self.view.input_player())
 
-    def matching_player(self, player_list):
+    def load_players(self, tournament):
+        players_from_db = table_players.all()
+        for player in players_from_db:
+            return tournament.player_list.append(Player(**player))
+
+    def match_player(self, player_list):
         sorted_players = sorted(player_list, key=lambda player: (player.score, player.ranking), reverse=True)
         upper_half = sorted_players[:len(sorted_players) // 2]
         lower_half = sorted_players[len(sorted_players) // 2:]
