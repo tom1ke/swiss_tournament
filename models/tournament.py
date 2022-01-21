@@ -3,17 +3,29 @@ from util import NUMBER_OF_ROUNDS
 
 class Tournament:
 
-    round_total = NUMBER_OF_ROUNDS
-
-    def __init__(self, name, location, start_date, end_date, time_control, description):
+    def __init__(self,
+                 name,
+                 location,
+                 start_date,
+                 end_date,
+                 time_control,
+                 description,
+                 round_total=NUMBER_OF_ROUNDS,
+                 round_list=None,
+                 player_list=None):
+        if round_list is None:
+            round_list = []
+        if player_list is None:
+            player_list = []
         self.name = name
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
         self.time_control = time_control
         self.description = description
-        self.round_list = []
-        self.player_list = []
+        self.round_total = round_total
+        self.round_list = round_list
+        self.player_list = player_list
 
     def __repr__(self):
         return self.__str__()
@@ -35,9 +47,12 @@ class Tournament:
             "time_control": self.time_control,
             "description": self.description,
             "round_total": self.round_total,
-            "player_list": self.serialize_player_list(self.player_list)
+            "round_list": self.round_list,
+            "player_list": self.serialize_player_list()
         }
 
-    def serialize_player_list(self, player_list):
-        for player in player_list:
-            return player.__dict__
+    def serialize_player_list(self):
+        serialized_player_list = []
+        for player in self.player_list:
+            serialized_player_list.append(player.__dict__)
+            return serialized_player_list
