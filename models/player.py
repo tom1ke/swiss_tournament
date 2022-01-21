@@ -1,14 +1,14 @@
+import json
 
 
 class Player:
-    def __init__(self, last_name, first_name, date_of_birth, gender, ranking):
+    def __init__(self, last_name, first_name, date_of_birth, gender, ranking, score=0):
         self.last_name = last_name
         self.first_name = first_name
         self.date_of_birth = date_of_birth
         self.gender = gender
         self.ranking = ranking
-
-        self.score = 0
+        self.score = score
 
     def __repr__(self):
         return self.__str__()
@@ -17,11 +17,4 @@ class Player:
         return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking}, {self.score})"
 
     def serialize_player(self):
-        return {
-            "last_name": self.last_name,
-            "first_name": self.first_name,
-            "date_of_birth": self.date_of_birth,
-            "gender": self.gender,
-            "ranking": self.ranking,
-            "score": self.score
-        }
+        return self.__dict__
