@@ -2,13 +2,17 @@
 
 class Match:
 
-    def __init__(self):
-        self.player1 = []
-        self.player2 = []
-        self.player_pair = (self.player1, self.player2)
+    def __init__(self, player_1=None, player_2=None):
+        if player_1 is None:
+            player_1 = []
+        if player_2 is None:
+            player_2 = []
+        self.player_1 = player_1
+        self.player_2 = player_2
+        self.player_pair = (self.player_1, self.player_2)
 
-    def add_players(self):
-        pass
+    def __repr__(self):
+        return self.__str__()
 
-    def input_result(self):
-        pass
+    def __str__(self):
+        return f"{self.player_1} contre {self.player_2}"
