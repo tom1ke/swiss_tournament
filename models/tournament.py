@@ -47,12 +47,10 @@ class Tournament:
             "time_control": self.time_control,
             "description": self.description,
             "round_total": self.round_total,
-            "round_list": self.round_list,
             "player_list": self.serialize_player_list()
         }
 
     def serialize_player_list(self):
-        serialized_player_list = []
-        for player in self.player_list:
-            serialized_player_list.append(player.__dict__)
-            return serialized_player_list
+        player_index = list(range(1, 8))
+        serialized_player_list = [player.__dict__ for player in self.player_list]
+        return dict(zip(player_index, serialized_player_list))
