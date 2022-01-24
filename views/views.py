@@ -17,8 +17,9 @@ class View:
         print()
         print("1. Créer un tournoi \n"
               "2. Générer le prochain tour \n"
-              "3. Charger la dernière sauvegarde \n"
-              "4. Sauvegarder & quitter")
+              "3. Entrer les résultats du tour \n"
+              "4. Charger la dernière sauvegarde \n"
+              "5. Sauvegarder & quitter")
         print()
 
         return input("Entrez le numéro de l'option choisie : ")
@@ -49,3 +50,10 @@ class View:
         ranking = input("Classement : ")
 
         return last_name, first_name, date_of_birth, gender, ranking
+
+    def enter_results(self):
+        index = 1
+        while index <= NUMBER_OF_PLAYERS:
+            print()
+            input(f"Entrez le résultat (1 : victoire, 0.5 : nul, 0 : défaite) pour le joueur {index} :")
+            index += 1
