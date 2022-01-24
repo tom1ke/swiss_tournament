@@ -6,6 +6,7 @@ Database setup
 db = TinyDB("data.json", indent=4)
 table_tournament = db.table("Tournament")
 table_players = db.table("Players")
+table_rounds = db.table("Rounds")
 
 """
 Tournament setup
@@ -18,5 +19,6 @@ Menu options
 """
 CREATE_TOURNAMENT = str(1)
 GENERATE_ROUND = str(2)
-LOAD_PREVIOUS_STATE = str(3)
-QUIT = str(4)
+ENTER_RESULTS = str(3)
+LOAD_PREVIOUS_STATE = str(4)
+QUIT = str(5)
