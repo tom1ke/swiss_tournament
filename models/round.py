@@ -1,12 +1,12 @@
-from datetime import datetime
+from util import NOW
 
 
 class Round:
-    def __init__(self, name, match_list=None, start_time=datetime.now(), end_time=None, completed=False):
+    def __init__(self, name, match_list=None, start_time=NOW, end_time=None, completed=False):
         if match_list is None:
             match_list = []
         if end_time is None and completed:
-            end_time = datetime.now()
+            end_time = NOW
         self.name = name
         self.match_list = match_list
         self.start_time = start_time
@@ -17,10 +17,12 @@ class Round:
         return self.__str__()
 
     def __str__(self):
-        return f"{self.name} : \n" \
+        if self.end_time is None:
+            self.end_time = "Toujours en cours"
+        return f"\n{self.name} \n" \
                f"Début : {self.start_time} \n" \
                f"Matchs : {self.match_list} \n" \
-               f"Fin : {self.end_time}"
+               f"Fin : {self.end_time} \n"
 
     def serialize_round(self):
         return {
