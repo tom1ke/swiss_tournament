@@ -18,6 +18,7 @@ class Controller:
         while operation != QUIT:
 
             if operation == CREATE_TOURNAMENT:
+                table_tournament.truncate()
                 current_tournament = self.create_tournament()
 
                 while len(current_tournament.player_list) < NUMBER_OF_PLAYERS:
@@ -30,12 +31,15 @@ class Controller:
                 print(current_tournament)
 
             elif operation == GENERATE_ROUND:
-                current_tournament = self.load_tournament()
+                current_tournament = self.load_last_tournament()
 
-                current_tournament.player_list = self.load_players(current_tournament)
-                current_tournament.round_list = self.match_players(current_tournament.player_list)
+                current_tournament.player_list = self.load_players_from_tournament(current_tournament)
 
-                table_rounds.insert(current_tournament.round_list)
+                current_round = Round(self.view.input_round())
+
+                current_tournament.round_list.append(current_round)
+
+                # table_rounds.insert(current_tournament.round_list)
 
                 print(current_tournament)
 
@@ -43,9 +47,9 @@ class Controller:
                 self.update_scores()
 
             elif operation == LOAD_PREVIOUS_STATE:
-                current_tournament = self.load_tournament()
+                current_tournament = self.load_last_tournament()
 
-                current_tournament.player_list = self.load_players(current_tournament)
+                current_tournament.player_list = self.load_players_from_tournament(current_tournament)
                 current_tournament.round_list = self.load_rounds(current_tournament)
 
                 print(current_tournament)
@@ -60,13 +64,17 @@ class Controller:
     def add_player(self):
         return Player(*self.view.input_player())
 
-    def load_tournament(self):
-        return Tournament(**(table_tournament.all()[-1]))
+    def load_last_tournament(self):
+        last_tournament = table_tournament.all()[-1]
+        current_tournament = Tournament(**last_tournament)
+        current_tournament.player_list = list(current_tournament.player_list)
+        return current_tournament
 
-    def load_players(self, tournament):
-        players_from_db = (table_players.all()[-8:])
-        for player in players_from_db:
-            tournament.player_list.append(Player(**player))
+    def load_players_from_tournament(self, tournament):
+        loaded_players = [Player(**player) for player in tournament.player_list]
+        tournament.player_list.clear()
+        for player in loaded_players:
+            tournament.player_list.append(player)
         return tournament.player_list
 
     def load_rounds(self, tournament):
@@ -82,7 +90,7 @@ class Controller:
         upper_half = sorted_players[:len(sorted_players) // 2]
         lower_half = sorted_players[len(sorted_players) // 2:]
 
-        return list(zip(upper_half, lower_half))
+        return zip(upper_half, lower_half)
 
     def update_scores(self):
         self.view.enter_results()
