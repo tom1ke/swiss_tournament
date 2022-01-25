@@ -1,4 +1,3 @@
-import json
 
 
 class Player:
@@ -14,7 +13,9 @@ class Player:
         return self.__str__()
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name} ({self.date_of_birth}, {self.gender}, {self.ranking}, {self.score})"
+        return f"{self.last_name} " \
+               f"{self.first_name} " \
+               f"({self.date_of_birth}, {self.gender}, {self.ranking}, {self.score})"
 
     def serialize_player(self):
         return self.__dict__
