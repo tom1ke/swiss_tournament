@@ -1,3 +1,4 @@
+from datetime import datetime
 from tinydb import TinyDB
 
 """
@@ -13,6 +14,11 @@ Tournament setup
 """
 NUMBER_OF_ROUNDS = 4
 NUMBER_OF_PLAYERS = 8
+
+"""
+Date & time setup
+"""
+NOW = datetime.now().isoformat(' ', 'seconds')
 
 """
 Menu options
