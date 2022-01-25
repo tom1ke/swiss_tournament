@@ -31,12 +31,13 @@ class Tournament:
         return self.__str__()
 
     def __str__(self):
+        nl = "\n"
         return f"{self.name}, du {self.start_date} au {self.end_date}, " \
                f"à {self.location} en {self.round_total} tours, " \
-               f"mode {self.time_control} : \n" \
-               f"{self.description} \n " \
-               f"Détails des tours : {self.round_list} \n " \
-               f"Liste des joueurs : {self.player_list}"
+               f"mode {self.time_control} :\n" \
+               f"{self.description}\n" \
+               f"Détails des tours : {self.round_list}\n" \
+               f"Liste des joueurs : \n{(nl.join(map(str, self.player_list)))}"
 
     def serialize_tournament(self):
         return {
@@ -51,6 +52,4 @@ class Tournament:
         }
 
     def serialize_player_list(self):
-        player_index = list(range(1, 8))
-        serialized_player_list = [player.__dict__ for player in self.player_list]
-        return dict(zip(player_index, serialized_player_list))
+        return [player.__dict__ for player in self.player_list]
