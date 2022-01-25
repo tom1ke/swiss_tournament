@@ -51,6 +51,13 @@ class View:
 
         return last_name, first_name, date_of_birth, gender, ranking
 
+    def input_round(self):
+        print()
+        print("Génération du tour")
+        print()
+
+        return input("Nom du tour (ex : \"Round 1\") : ")
+
     def enter_results(self):
         index = 1
         while index <= NUMBER_OF_PLAYERS:
