@@ -19,7 +19,8 @@ class View:
               "2. Générer le prochain tour \n"
               "3. Entrer les résultats du tour \n"
               "4. Charger la dernière sauvegarde \n"
-              "5. Sauvegarder & quitter")
+              "5. Rapports \n"
+              "6. Sauvegarder & quitter")
         print()
 
         return input("Entrez le numéro de l'option choisie : ")
@@ -64,3 +65,22 @@ class View:
             print()
             input(f"Entrez le résultat (1 : victoire, 0.5 : nul, 0 : défaite) pour le joueur {index} :")
             index += 1
+
+    def input_reports(self):
+        print()
+        print("Rapports :")
+        print()
+        print("1. Tous les joueurs enregistrés \n"
+              "2. Tous les tournois enregistrés \n"
+              "3. Tous les joueurs du tournoi sélectionné \n"
+              "4. Tous les tours du tournoi sélectionné \n"
+              "5. Tous les matchs du tournoi sélectionné \n"
+              "6. Menu principal")
+        print()
+        return input("Entrez le numéro de l'option choisie : ")
+
+    def input_all_actors(self):
+        pass
+
+    def input_tournament_players(self):
+        pass
