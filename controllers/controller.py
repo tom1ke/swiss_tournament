@@ -39,6 +39,8 @@ class Controller:
 
                 current_tournament.round_list.append(current_round)
 
+                self.match_players(current_tournament.player_list, current_round.match_list)
+
                 # table_rounds.insert(current_tournament.round_list)
 
                 print(current_tournament)
@@ -85,12 +87,15 @@ class Controller:
     def sort_players(self, player_list):
         return sorted(player_list, key=lambda player: (player.score, player.ranking), reverse=True)
 
-    def match_players(self, player_list):
+    def match_players(self, player_list, match_list):
         sorted_players = self.sort_players(player_list)
         upper_half = sorted_players[:len(sorted_players) // 2]
         lower_half = sorted_players[len(sorted_players) // 2:]
 
-        return zip(upper_half, lower_half)
+        for player_1, player_2 in zip(upper_half, lower_half):
+            pair = Match(player_1, player_2)
+            match_list.append(pair)
+        return match_list
 
     def update_scores(self):
         self.view.enter_results()
