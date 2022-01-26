@@ -32,11 +32,11 @@ class Round:
     def serialize_round(self):
         return {
             "name": self.name,
-            "match_list": self.match_list,
+            "match_list": self.serialize_match_list(),
             "start_time": self.start_time,
             "end_time": self.end_time,
             "completed": self.completed
         }
 
     def serialize_match_list(self):
-        pass
+        return [matches.serialize_match() for matches in self.match_list]
