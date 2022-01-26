@@ -32,16 +32,17 @@ class Controller:
 
             elif operation == GENERATE_ROUND:
                 current_tournament = self.load_last_tournament()
-
                 current_tournament.player_list = self.load_players_from_tournament(current_tournament)
-
                 current_round = Round(self.view.input_round())
 
                 current_tournament.round_list.append(current_round)
 
                 self.match_players(current_tournament.player_list, current_round.match_list)
+
                 current_tournament.player_list = self.sort_players(current_tournament.player_list)
-                # table_rounds.insert(current_tournament.round_list)
+
+                TABLE_ROUNDS.insert(current_round.serialize_round())
+                TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
 
                 print(current_tournament)
 
@@ -74,7 +75,7 @@ class Controller:
                             current_tournament = Tournament(**tournament)
                             current_tournament.player_list = self.load_players_from_tournament(current_tournament)
                             tournament_list.append(current_tournament)
-                        print(tournament_list)
+                        print("\n".join(map(str, tournament_list)))
 
                     elif report_op == PLAYERS:
                         pass
