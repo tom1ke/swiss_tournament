@@ -17,7 +17,7 @@ class Match:
         return self.__str__()
 
     def __str__(self):
-        return f"{self.player_1} ({self.player_1_result}) // {self.player_2} ({self.player_2_result})"
+        return f"{self.player_1}    {self.player_1_result} - {self.player_2_result}    {self.player_2}"
 
     def serialize_match(self):
         return {
