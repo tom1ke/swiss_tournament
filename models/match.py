@@ -2,11 +2,11 @@
 
 class Match:
 
-    def __init__(self, player_1=None, player_2=None, player_1_result=0, player_2_result=0):
-        if player_1 is None:
-            player_1 = []
-        if player_2 is None:
-            player_2 = []
+    def __init__(self, player_1, player_2, player_1_result=None, player_2_result=None):
+        if player_1_result is None:
+            player_1_result = 0
+        if player_2_result is None:
+            player_2_result = 0
         self.player_1 = player_1
         self.player_2 = player_2
         self.player_1_result = player_1_result
@@ -17,4 +17,12 @@ class Match:
         return self.__str__()
 
     def __str__(self):
-        return f"{self.player_1} ({self.player_1_result}) contre {self.player_2} ({self.player_2_result})"
+        return f"{self.player_1} ({self.player_1_result}) // {self.player_2} ({self.player_2_result})"
+
+    def serialize_match(self):
+        return {
+            "player_1": self.player_1.__dict__,
+            "player_2": self.player_2.__dict__,
+            "player_1_result": self.player_1_result,
+            "player_2_result": self.player_2_result
+        }
