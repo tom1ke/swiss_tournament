@@ -4,10 +4,10 @@ from tinydb import TinyDB
 """
 Database setup
 """
-db = TinyDB("data.json", indent=4)
-table_tournament = db.table("Tournament")
-table_players = db.table("Players")
-table_rounds = db.table("Rounds")
+DB = TinyDB("data.json", indent=4)
+TABLE_TOURNAMENTS = DB.table("Tournament")
+TABLE_PLAYERS = DB.table("Players")
+TABLE_ROUNDS = DB.table("Rounds")
 
 """
 Tournament setup
@@ -21,10 +21,21 @@ Date & time setup
 NOW = datetime.now().isoformat(' ', 'seconds')
 
 """
-Menu options
+Main menu options
 """
 CREATE_TOURNAMENT = str(1)
 GENERATE_ROUND = str(2)
 ENTER_RESULTS = str(3)
 LOAD_PREVIOUS_STATE = str(4)
-QUIT = str(5)
+REPORTS = str(5)
+QUIT = str(6)
+
+"""
+Reports menu options
+"""
+ALL_ACTORS = str(1)
+TOURNAMENTS = str(2)
+PLAYERS = str(3)
+ROUNDS = str(4)
+MATCHES = str(5)
+MAIN_MENU = str(6)
