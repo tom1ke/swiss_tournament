@@ -18,15 +18,15 @@ class Controller:
         while operation != QUIT:
 
             if operation == CREATE_TOURNAMENT:
-                table_tournament.truncate()
+                TABLE_TOURNAMENTS.truncate()
                 current_tournament = self.create_tournament()
 
                 while len(current_tournament.player_list) < NUMBER_OF_PLAYERS:
                     current_player = self.add_player()
                     current_tournament.player_list.append(current_player)
-                    table_players.insert(current_player.serialize_player())
+                    TABLE_PLAYERS.insert(current_player.serialize_player())
 
-                table_tournament.insert(current_tournament.serialize_tournament())
+                TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
 
                 print(current_tournament)
 
@@ -40,7 +40,7 @@ class Controller:
                 current_tournament.round_list.append(current_round)
 
                 self.match_players(current_tournament.player_list, current_round.match_list)
-
+                current_tournament.player_list = self.sort_players(current_tournament.player_list)
                 # table_rounds.insert(current_tournament.round_list)
 
                 print(current_tournament)
@@ -56,6 +56,37 @@ class Controller:
 
                 print(current_tournament)
 
+            elif operation == REPORTS:
+                report_op = self.view.input_reports()
+
+                while report_op != MAIN_MENU:
+
+                    if report_op == ALL_ACTORS:
+                        player_list = []
+                        for player in TABLE_PLAYERS.all():
+                            current_player = Player(**player)
+                            player_list.append(current_player)
+                        print("\n".join(map(str, player_list)))
+
+                    elif report_op == TOURNAMENTS:
+                        tournament_list = []
+                        for tournament in TABLE_TOURNAMENTS.all():
+                            current_tournament = Tournament(**tournament)
+                            current_tournament.player_list = self.load_players_from_tournament(current_tournament)
+                            tournament_list.append(current_tournament)
+                        print(tournament_list)
+
+                    elif report_op == PLAYERS:
+                        pass
+
+                    elif report_op == ROUNDS:
+                        pass
+
+                    elif report_op == MATCHES:
+                        pass
+
+                    report_op = self.view.input_reports()
+
             operation = self.view.input_main()
 
         self.view.end_program()
@@ -67,7 +98,7 @@ class Controller:
         return Player(*self.view.input_player())
 
     def load_last_tournament(self):
-        last_tournament = table_tournament.all()[-1]
+        last_tournament = TABLE_TOURNAMENTS.all()[-1]
         current_tournament = Tournament(**last_tournament)
         current_tournament.player_list = list(current_tournament.player_list)
         return current_tournament
@@ -80,7 +111,7 @@ class Controller:
         return tournament.player_list
 
     def load_rounds(self, tournament):
-        rounds_from_db = (table_rounds.all())
+        rounds_from_db = (TABLE_ROUNDS.all())
         tournament.round_list.append(rounds_from_db)
         return tournament.round_list
 
