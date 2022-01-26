@@ -36,7 +36,7 @@ class Tournament:
                f"à {self.location} en {self.round_total} tours, " \
                f"mode {self.time_control} :\n" \
                f"{self.description}\n" \
-               f"Détails des tours : {self.round_list}\n" \
+               f"Détails des tours : {(nl.join(map(str, self.round_list)))}\n" \
                f"Liste des joueurs : \n{(nl.join(map(str, self.player_list)))}"
 
     def serialize_tournament(self):
