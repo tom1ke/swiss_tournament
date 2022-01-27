@@ -63,7 +63,7 @@ class View:
         index = 1
         while index <= NUMBER_OF_PLAYERS:
             print()
-            input(f"Entrez le résultat (1 : victoire, 0.5 : nul, 0 : défaite) pour le joueur {index} :")
+            input(f"Entrez le résultat (1 : victoire, 0.5 : nul, 0 : défaite) pour le joueur {index} : ")
             index += 1
 
     def input_reports(self):
@@ -79,8 +79,17 @@ class View:
         print()
         return input("Entrez le numéro de l'option choisie : ")
 
-    def input_all_actors(self):
-        pass
+    def input_display_mode(self):
+        print()
+        print("Mode d'affichage :")
+        print()
+        print("1. Par ordre alphabétique \n"
+              "2. Par classement")
+        print()
+        return input("Entrez le numéro de l'option choisie : ")
 
-    def input_tournament_players(self):
-        pass
+    def output_generic(self, obj):
+        return print(obj)
+
+    def output_indexed(self, index, obj):
+        return print(index, obj)
