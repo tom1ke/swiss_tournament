@@ -39,3 +39,9 @@ PLAYERS = str(3)
 ROUNDS = str(4)
 MATCHES = str(5)
 MAIN_MENU = str(6)
+
+"""
+Display mode menu options
+"""
+SORT_ALPHA = str(1)
+SORT_RANK = str(2)
