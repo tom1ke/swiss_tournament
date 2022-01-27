@@ -13,6 +13,12 @@ class Controller:
 
     def run(self):
         self.view.welcome()
+
+        self.run_main_menu()
+
+        self.view.end_program()
+
+    def run_main_menu(self):
         operation = self.view.input_main()
 
         while operation != QUIT:
@@ -56,40 +62,41 @@ class Controller:
                 self.view.output_generic(current_tournament)
 
             elif operation == REPORTS:
-                report_op = self.view.input_reports()
-
-                while report_op != MAIN_MENU:
-
-                    if report_op == ALL_ACTORS:
-                        player_list = []
-                        for player in TABLE_PLAYERS.all():
-                            current_player = Player(**player)
-                            player_list.append(current_player)
-                        for index, player in enumerate(player_list, start=1):
-                            self.view.output_indexed(index, player)
-
-                    elif report_op == TOURNAMENTS:
-                        tournament_list = []
-                        for tournament in TABLE_TOURNAMENTS.all():
-                            current_tournament = self.load_tournament(tournament)
-                            tournament_list.append(current_tournament)
-                        for index, tournament in enumerate(tournament_list, start=1):
-                            self.view.output_indexed(index, tournament)
-
-                    elif report_op == PLAYERS:
-                        pass
-
-                    elif report_op == ROUNDS:
-                        pass
-
-                    elif report_op == MATCHES:
-                        pass
-
-                    report_op = self.view.input_reports()
+                self.run_reports_menu()
 
             operation = self.view.input_main()
 
-        self.view.end_program()
+    def run_reports_menu(self):
+        report_op = self.view.input_reports()
+
+        while report_op != MAIN_MENU:
+
+            if report_op == ALL_ACTORS:
+                player_list = []
+                for player in TABLE_PLAYERS.all():
+                    current_player = Player(**player)
+                    player_list.append(current_player)
+                for index, player in enumerate(player_list, start=1):
+                    self.view.output_indexed(index, player)
+
+            elif report_op == TOURNAMENTS:
+                tournament_list = []
+                for tournament in TABLE_TOURNAMENTS.all():
+                    current_tournament = self.load_tournament(tournament)
+                    tournament_list.append(current_tournament)
+                for index, tournament in enumerate(tournament_list, start=1):
+                    self.view.output_indexed(index, tournament)
+
+            elif report_op == PLAYERS:
+                pass
+
+            elif report_op == ROUNDS:
+                pass
+
+            elif report_op == MATCHES:
+                pass
+
+            report_op = self.view.input_reports()
 
     def create_tournament(self):
         return Tournament(*self.view.input_tournament())
