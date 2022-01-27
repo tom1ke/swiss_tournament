@@ -32,7 +32,7 @@ class Tournament:
 
     def __str__(self):
         nl = "\n"
-        return f"{self.name}, du {self.start_date} au {self.end_date}, " \
+        return f"\n{self.name}, du {self.start_date} au {self.end_date}, " \
                f"à {self.location} en {self.round_total} tours, " \
                f"mode {self.time_control} :\n" \
                f"{self.description}\n" \
