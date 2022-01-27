@@ -64,6 +64,9 @@ class Controller:
             elif operation == REPORTS:
                 self.run_reports_menu()
 
+            else:
+                self.view.invalid_choice()
+
             operation = self.view.input_main()
 
     def run_reports_menu(self):
@@ -82,13 +85,18 @@ class Controller:
                     self.view.output_indexed(index, tournament)
 
             elif report_op == PLAYERS:
-                pass
+                selected_tournament = self.select_tournament_from_db()
+                self.indexing_output(selected_tournament.player_list)
 
             elif report_op == ROUNDS:
-                pass
+                selected_tournament = self.select_tournament_from_db()
+                self.indexing_output(selected_tournament.round_list)
 
             elif report_op == MATCHES:
                 pass
+
+            else:
+                self.view.invalid_choice()
 
             report_op = self.view.input_reports()
 
@@ -124,6 +132,14 @@ class Controller:
             loaded_tournament = self.load_tournament(tournament)
             tournament_list.append(loaded_tournament)
         return tournament_list
+
+    def select_tournament_from_db(self):
+        tournament_list = self.load_tournaments_from_db()
+        tournament_index = (int(self.view.input_reports_tournament_choice()) - 1)
+        if 0 <= tournament_index < len(tournament_list):
+            return self.load_tournament(TABLE_TOURNAMENTS.all()[tournament_index])
+        else:
+            return self.view.invalid_choice()
 
     def load_players_from_db(self):
         player_list = []
@@ -163,4 +179,9 @@ class Controller:
             list_to_sort = self.sort_players_by_name(list_to_sort)
         elif display_mode == SORT_RANK:
             list_to_sort = self.sort_players_by_rank(list_to_sort)
+        else:
+            self.view.invalid_choice()
         return list_to_sort
+
+    def indexing_output(self, obj_list):
+        return [self.view.output_indexed(index, obj) for index, obj in enumerate(obj_list, start=1)]
