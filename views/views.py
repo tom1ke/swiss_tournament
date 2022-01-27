@@ -11,6 +11,11 @@ class View:
     def end_program(self):
         print("À bientôt !")
 
+    def invalid_choice(self):
+        print()
+        print("Votre choix n'est pas valide, vous devez renseigner une option existante.")
+        print()
+
     def input_main(self):
         print()
         print("Menu principal : ")
@@ -78,6 +83,10 @@ class View:
               "6. Menu principal")
         print()
         return input("Entrez le numéro de l'option choisie : ")
+
+    def input_reports_tournament_choice(self):
+        print()
+        return input("Entrez le numéro du tournoi concerné (cf. Tournois enregistrés) : ")
 
     def input_display_mode(self):
         print()
