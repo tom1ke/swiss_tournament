@@ -28,11 +28,11 @@ class Controller:
 
                 TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
 
-                print(current_tournament)
+                self.view.output_generic(current_tournament)
 
             elif operation == GENERATE_ROUND:
-                current_tournament = self.load_last_tournament()
-                current_tournament.player_list = self.load_players_from_tournament(current_tournament)
+                last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                current_tournament = self.load_tournament(last_tournament)
                 current_round = Round(self.view.input_round())
 
                 current_tournament.round_list.append(current_round)
@@ -41,21 +41,19 @@ class Controller:
 
                 current_tournament.player_list = self.sort_players(current_tournament.player_list)
 
-                TABLE_ROUNDS.insert(current_round.serialize_round())
-                TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
+                # TABLE_ROUNDS.insert(current_round.serialize_round())
+                # TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
 
-                print(current_tournament)
+                self.view.output_generic(current_tournament)
 
             elif operation == ENTER_RESULTS:
                 self.update_scores()
 
             elif operation == LOAD_PREVIOUS_STATE:
-                current_tournament = self.load_last_tournament()
+                last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                current_tournament = self.load_tournament(last_tournament)
 
-                current_tournament.player_list = self.load_players_from_tournament(current_tournament)
-                current_tournament.round_list = self.load_rounds(current_tournament)
-
-                print(current_tournament)
+                self.view.output_generic(current_tournament)
 
             elif operation == REPORTS:
                 report_op = self.view.input_reports()
@@ -67,15 +65,16 @@ class Controller:
                         for player in TABLE_PLAYERS.all():
                             current_player = Player(**player)
                             player_list.append(current_player)
-                        print("\n".join(map(str, player_list)))
+                        for index, player in enumerate(player_list, start=1):
+                            self.view.output_indexed(index, player)
 
                     elif report_op == TOURNAMENTS:
                         tournament_list = []
                         for tournament in TABLE_TOURNAMENTS.all():
-                            current_tournament = Tournament(**tournament)
-                            current_tournament.player_list = self.load_players_from_tournament(current_tournament)
+                            current_tournament = self.load_tournament(tournament)
                             tournament_list.append(current_tournament)
-                        print("\n".join(map(str, tournament_list)))
+                        for index, tournament in enumerate(tournament_list, start=1):
+                            self.view.output_indexed(index, tournament)
 
                     elif report_op == PLAYERS:
                         pass
@@ -98,13 +97,27 @@ class Controller:
     def add_player(self):
         return Player(*self.view.input_player())
 
-    def load_last_tournament(self):
-        last_tournament = TABLE_TOURNAMENTS.all()[-1]
-        current_tournament = Tournament(**last_tournament)
-        current_tournament.player_list = list(current_tournament.player_list)
-        return current_tournament
+    def load_tournament(self, db_tournament):
+        loaded_tournament = Tournament(**db_tournament)
 
-    def load_players_from_tournament(self, tournament):
+        loaded_players = [Player(**player) for player in loaded_tournament.player_list]
+        loaded_tournament.player_list.clear()
+        for player in loaded_players:
+            loaded_tournament.player_list.append(player)
+
+        loaded_rounds = [Round(**round_) for round_ in loaded_tournament.round_list]
+        loaded_tournament.round_list.clear()
+        for round_ in loaded_rounds:
+            loaded_tournament.round_list.append(round_)
+
+            loaded_matches = [Match(**match_) for match_ in round_.match_list]
+            round_.match_list.clear()
+            for match_ in loaded_matches:
+                round_.match_list.append(match_)
+
+        return loaded_tournament
+
+    def load_players_from_db(self, tournament):
         loaded_players = [Player(**player) for player in tournament.player_list]
         tournament.player_list.clear()
         for player in loaded_players:
