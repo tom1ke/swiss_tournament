@@ -25,11 +25,13 @@ class Controller:
         while operation != QUIT:
 
             if operation == CREATE_TOURNAMENT:
-                TABLE_TOURNAMENTS.truncate()
                 current_tournament = self.create_tournament()
 
+                player_index = 0
                 while len(current_tournament.player_list) < NUMBER_OF_PLAYERS:
+                    player_index += 1
                     current_player = self.add_player()
+                    current_player.index = player_index
                     current_tournament.player_list.append(current_player)
                     TABLE_PLAYERS.insert(current_player.serialize_player())
 
@@ -48,7 +50,7 @@ class Controller:
 
                 current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
 
-                # TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
+                TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(), doc_ids=[last_tournament.doc_id])
 
                 self.view.output_generic(current_tournament)
 
@@ -76,13 +78,11 @@ class Controller:
 
             if report_op == ALL_ACTORS:
                 player_list = self.display_mode(self.load_players_from_db())
-                for index, player in enumerate(player_list, start=1):
-                    self.view.output_indexed(index, player)
+                self.indexing_output(player_list)
 
             elif report_op == TOURNAMENTS:
                 tournament_list = self.load_tournaments_from_db()
-                for index, tournament in enumerate(tournament_list, start=1):
-                    self.view.output_indexed(index, tournament)
+                self.indexing_output(tournament_list)
 
             elif report_op == PLAYERS:
                 selected_tournament = self.select_tournament_from_db()
@@ -95,7 +95,7 @@ class Controller:
             elif report_op == MATCHES:
                 selected_tournament = self.select_tournament_from_db()
                 all_match_lists = [round_.match_list for round_ in selected_tournament.round_list]
-                self.indexing_output(list(chain(*all_match_lists)))
+                self.indexing_output(chain(*all_match_lists))
 
             else:
                 self.view.invalid_choice()
@@ -152,12 +152,6 @@ class Controller:
             player_list.append(loaded_player)
         return player_list
 
-    def load_rounds_by_tournaments(self, tournament):
-        pass
-
-    def load_matches_by_tournaments(self, tournament):
-        pass
-
     def sort_players_by_rank(self, player_list):
         return sorted(player_list, key=lambda player: (player.score, player.ranking), reverse=True)
 
@@ -174,8 +168,10 @@ class Controller:
             match_list.append(pair)
         return match_list
 
-    def update_scores(self):
-        self.view.enter_results()
+    def update_scores(self, round_):
+        for match_ in round_:
+            match_.player_1_result = int(self.view.input_results(match_)[1])
+            match_.player_2_result = int(self.view.input_results(match_)[2])
 
     def display_mode(self, list_to_sort):
         display_mode = self.view.input_display_mode()
