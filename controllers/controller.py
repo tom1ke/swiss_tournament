@@ -1,3 +1,4 @@
+from itertools import chain
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
@@ -47,7 +48,6 @@ class Controller:
 
                 current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
 
-                # TABLE_ROUNDS.insert(current_round.serialize_round())
                 # TABLE_TOURNAMENTS.insert(current_tournament.serialize_tournament())
 
                 self.view.output_generic(current_tournament)
@@ -95,7 +95,7 @@ class Controller:
             elif report_op == MATCHES:
                 selected_tournament = self.select_tournament_from_db()
                 all_match_lists = [round_.match_list for round_ in selected_tournament.round_list]
-                self.indexing_output(list(*all_match_lists))
+                self.indexing_output(list(chain(*all_match_lists)))
 
             else:
                 self.view.invalid_choice()
