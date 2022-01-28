@@ -55,7 +55,15 @@ class Controller:
                 self.view.output_generic(current_tournament)
 
             elif operation == ENTER_RESULTS:
-                self.update_scores()
+                last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                current_tournament = self.load_tournament(last_tournament)
+                current_round = current_tournament.round_list[-1]
+                self.update_scores(current_round, current_tournament)
+                self.complete_round(current_round)
+
+                TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(), doc_ids=[last_tournament.doc_id])
+
+                self.view.output_generic(current_tournament)
 
             elif operation == LOAD_PREVIOUS_STATE:
                 last_tournament = TABLE_TOURNAMENTS.all()[-1]
@@ -168,10 +176,22 @@ class Controller:
             match_list.append(pair)
         return match_list
 
-    def update_scores(self, round_):
-        for match_ in round_:
-            match_.player_1_result = int(self.view.input_results(match_)[1])
-            match_.player_2_result = int(self.view.input_results(match_)[2])
+    def update_scores(self, round_, tournament):
+        for match_ in round_.match_list:
+            results = (self.view.input_results(match_))
+            match_.player_1_result = float(results[0])
+            match_.player_2_result = float(results[1])
+
+            for player in tournament.player_list:
+                if player.index == match_.player_1.index:
+                    player.score = player.score + match_.player_1_result
+                elif player.index == match_.player_2.index:
+                    player.score = player.score + match_.player_2_result
+
+    def complete_round(self, round_):
+        round_state = self.view.input_completed_round()
+        if round_state == COMPLETED:
+            round_.completed = True
 
     def display_mode(self, list_to_sort):
         display_mode = self.view.input_display_mode()
