@@ -93,7 +93,9 @@ class Controller:
                 self.indexing_output(selected_tournament.round_list)
 
             elif report_op == MATCHES:
-                pass
+                selected_tournament = self.select_tournament_from_db()
+                all_match_lists = [round_.match_list for round_ in selected_tournament.round_list]
+                self.indexing_output(list(*all_match_lists))
 
             else:
                 self.view.invalid_choice()
@@ -122,6 +124,8 @@ class Controller:
             loaded_matches = [Match(**match_) for match_ in round_.match_list]
             round_.match_list.clear()
             for match_ in loaded_matches:
+                match_.player_1 = Player(**match_.player_1)
+                match_.player_2 = Player(**match_.player_2)
                 round_.match_list.append(match_)
 
         return loaded_tournament
