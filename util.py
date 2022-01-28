@@ -41,6 +41,12 @@ MATCHES = str(5)
 MAIN_MENU = str(6)
 
 """
+Round state menu options
+"""
+COMPLETED = str(1)
+ONGOING = str(2)
+
+"""
 Display mode menu options
 """
 SORT_ALPHA = str(1)
