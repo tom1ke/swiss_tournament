@@ -64,12 +64,22 @@ class View:
 
         return input("Nom du tour (ex : \"Round 1\") : ")
 
-    def enter_results(self):
+    def input_results(self, match_):
         index = 1
         while index <= NUMBER_OF_PLAYERS:
             print()
             input(f"Entrez le résultat (1 : victoire, 0.5 : nul, 0 : défaite) pour le joueur {index} : ")
             index += 1
+
+    def input_completed_round(self):
+        print()
+        print("Le tour est-il terminé :")
+        print()
+        print("1. Oui \n"
+              "2. Non")
+        print()
+
+        return input("Entrez le numéro de l'option choisie : ")
 
     def input_reports(self):
         print()
