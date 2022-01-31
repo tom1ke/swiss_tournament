@@ -40,36 +40,52 @@ class Controller:
                 self.view.output_generic(current_tournament)
 
             elif operation == GENERATE_ROUND:
-                last_tournament = TABLE_TOURNAMENTS.all()[-1]
-                current_tournament = self.load_tournament(last_tournament)
-                current_round = Round(self.view.input_round())
+                try:
+                    last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                    current_tournament = self.load_tournament(last_tournament)
+                    if len(current_tournament.round_list) >= NUMBER_OF_ROUNDS:
+                        self.view.output_max_round()
+                    else:
+                        current_round = Round(self.view.input_round())
+                        current_tournament.round_list.append(current_round)
+                        self.match_players(current_tournament.player_list, current_round.match_list)
+                        current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
 
-                current_tournament.round_list.append(current_round)
+                        TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(),
+                                                 doc_ids=[last_tournament.doc_id])
 
-                self.match_players(current_tournament.player_list, current_round.match_list)
+                        self.view.output_generic(current_tournament)
 
-                current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
-
-                TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(), doc_ids=[last_tournament.doc_id])
-
-                self.view.output_generic(current_tournament)
+                except IndexError:
+                    self.view.no_data()
 
             elif operation == ENTER_RESULTS:
-                last_tournament = TABLE_TOURNAMENTS.all()[-1]
-                current_tournament = self.load_tournament(last_tournament)
-                current_round = current_tournament.round_list[-1]
-                self.update_scores(current_round, current_tournament)
-                self.complete_round(current_round)
+                try:
+                    last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                    current_tournament = self.load_tournament(last_tournament)
+                    current_round = current_tournament.round_list[-1]
+                    if current_round.completed:
+                        self.view.output_results_done()
+                    else:
+                        self.update_scores(current_round, current_tournament)
+                        self.complete_round(current_round)
 
-                TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(), doc_ids=[last_tournament.doc_id])
+                        TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(),
+                                                 doc_ids=[last_tournament.doc_id])
 
-                self.view.output_generic(current_tournament)
+                        self.view.output_generic(current_tournament)
+
+                except IndexError:
+                    self.view.no_data()
 
             elif operation == LOAD_PREVIOUS_STATE:
-                last_tournament = TABLE_TOURNAMENTS.all()[-1]
-                current_tournament = self.load_tournament(last_tournament)
+                try:
+                    last_tournament = TABLE_TOURNAMENTS.all()[-1]
+                    current_tournament = self.load_tournament(last_tournament)
+                    self.view.output_generic(current_tournament)
 
-                self.view.output_generic(current_tournament)
+                except IndexError:
+                    self.view.no_data()
 
             elif operation == REPORTS:
                 self.run_reports_menu()
@@ -88,22 +104,40 @@ class Controller:
                 player_list = self.display_mode(self.load_players_from_db())
                 self.indexing_output(player_list)
 
+                if len(player_list) == 0:
+                    self.view.no_data()
+
             elif report_op == TOURNAMENTS:
                 tournament_list = self.load_tournaments_from_db()
                 self.indexing_output(tournament_list)
 
+                if len(tournament_list) == 0:
+                    self.view.no_data()
+
             elif report_op == PLAYERS:
-                selected_tournament = self.select_tournament_from_db()
-                self.indexing_output(selected_tournament.player_list)
+                try:
+                    selected_tournament = self.select_tournament_from_db()
+                    self.indexing_output(selected_tournament.player_list)
+
+                except AttributeError:
+                    self.view.no_data()
 
             elif report_op == ROUNDS:
-                selected_tournament = self.select_tournament_from_db()
-                self.indexing_output(selected_tournament.round_list)
+                try:
+                    selected_tournament = self.select_tournament_from_db()
+                    self.indexing_output(selected_tournament.round_list)
+
+                except AttributeError:
+                    self.view.no_data()
 
             elif report_op == MATCHES:
-                selected_tournament = self.select_tournament_from_db()
-                all_match_lists = [round_.match_list for round_ in selected_tournament.round_list]
-                self.indexing_output(chain(*all_match_lists))
+                try:
+                    selected_tournament = self.select_tournament_from_db()
+                    all_match_lists = [round_.match_list for round_ in selected_tournament.round_list]
+                    self.indexing_output(chain(*all_match_lists))
+
+                except AttributeError:
+                    self.view.no_data()
 
             else:
                 self.view.invalid_choice()
