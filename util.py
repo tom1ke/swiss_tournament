@@ -18,7 +18,10 @@ NUMBER_OF_PLAYERS = 8
 """
 Date & time setup
 """
-NOW = datetime.now().isoformat(' ', 'seconds')
+
+
+def get_time():
+    return datetime.now().isoformat(' ', 'seconds')
 
 """
 Main menu options
