@@ -1,4 +1,4 @@
-from util import NOW
+from util import get_time
 
 
 class Round:
@@ -6,9 +6,9 @@ class Round:
         if match_list is None:
             match_list = []
         if start_time is None:
-            start_time = NOW
+            start_time = get_time()
         if end_time is None and completed:
-            end_time = NOW
+            end_time = get_time()
         if completed is None:
             completed = False
         self.name = name
