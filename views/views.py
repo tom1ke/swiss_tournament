@@ -16,6 +16,11 @@ class View:
         print("Votre choix n'est pas valide, vous devez renseigner une option existante.")
         print()
 
+    def no_data(self):
+        print()
+        print("Aucune correspondance dans la base de données.")
+        print()
+
     def input_main(self):
         print()
         print("Menu principal : ")
@@ -64,6 +69,11 @@ class View:
 
         return input("Nom du tour (ex : \"Round 1\") : ")
 
+    def output_max_round(self):
+        print()
+        print("Tous les tours du tournoi ont été joués.")
+        print()
+
     def input_results(self, match_):
         print()
         print(f"Entrez le résultat du match {match_} :")
@@ -72,6 +82,11 @@ class View:
         player_2_result = input(f"{match_.player_2.first_name} {match_.player_2.last_name} : ")
 
         return player_1_result, player_2_result
+
+    def output_results_done(self):
+        print()
+        print("Ce tour à déjà été clôturé.")
+        print()
 
     def input_completed_round(self):
         print()
