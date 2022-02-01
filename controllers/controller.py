@@ -206,9 +206,22 @@ class Controller:
         lower_half = sorted_players[len(sorted_players) // 2:]
 
         for player_1, player_2 in zip(upper_half, lower_half):
+            played_matches = self.check_played_matches()
+            for match_ in played_matches:
+                while match_.player_1.index in [
+                    player_1.index,
+                    player_2.index,
+                ] and match_.player_2.index in [player_1.index, player_2.index]:
+                    lower_half.remove(lower_half[1])
             pair = Match(player_1, player_2)
             match_list.append(pair)
         return match_list
+
+    def check_played_matches(self):
+        last_tournament = TABLE_TOURNAMENTS.all()[-1]
+        current_tournament = self.load_tournament(last_tournament)
+        all_match_lists = [round_.match_list for round_ in current_tournament.round_list]
+        return list(chain(*all_match_lists))
 
     def update_scores(self, round_, tournament):
         for match_ in round_.match_list:
