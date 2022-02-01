@@ -34,6 +34,13 @@ REPORTS = str(5)
 QUIT = str(6)
 
 """
+Time control options
+"""
+BLITZ = str(1)
+BULLET = str(2)
+RAPID = str(3)
+
+"""
 Reports menu options
 """
 ALL_ACTORS = str(1)
