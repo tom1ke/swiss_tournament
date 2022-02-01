@@ -44,10 +44,35 @@ class View:
         location = input("Lieu du tournoi : ")
         start_date = input("Date de début (JJ/MM/AA) : ")
         end_date = input("Date de fin (JJ/MM/AAAA) : ")
-        time_control = input("Bullet, Blitz ou Coup rapide : ")
+        time_control = self.input_time_control()
         description = input("Description du tournoi : ")
 
-        return name, location, start_date, end_date, time_control, description
+        if name == "":
+            print("Vous devez renseigner un nom.")
+            return self.input_tournament()
+        elif location == "":
+            print("Vous devez renseigner un lieu.")
+            return self.input_tournament()
+        elif start_date == "":
+            print("Vous devez renseigner une date de début.")
+            return self.input_tournament()
+        elif end_date == "":
+            print("Vous devez renseigner une date de fin.")
+            return self.input_tournament()
+        elif description == "":
+            print("Vous n'avez pas fourni de description au tournoi.")
+            return self.input_tournament()
+        else:
+            return name, location, start_date, end_date, description, time_control
+
+    def input_time_control(self):
+        print("Sélectionnez le format de temps :")
+        print("1. Blitz \n"
+              "2. Bullet \n"
+              "3. Coup rapide")
+        print()
+
+        return input("Entrez le numéro de l'option choisie : ")
 
     def input_player(self):
         print()
@@ -60,7 +85,29 @@ class View:
         gender = input("Sexe (M/F) : ")
         ranking = input("Classement : ")
 
-        return last_name, first_name, date_of_birth, gender, ranking
+        try:
+            ranking = int(ranking)
+        except ValueError:
+            print("Le classement du joueur doit être un chiffre.")
+            return self.input_player()
+
+        if last_name == "":
+            print("Vous devez renseigner un nom de famille.")
+            return self.input_player()
+        elif first_name == "":
+            print("Vous devez renseigner un prénom.")
+            return self.input_player()
+        elif date_of_birth == "":
+            print("Vous devez renseigner une date de naissance.")
+            return self.input_player()
+        elif gender not in ["M", "F"]:
+            print("Veuillez renseigner uniquement \"M\" ou \"F\" pour le sexe.")
+            return self.input_player()
+        elif ranking < 1:
+            print("Le classement du joueur doit être supérieur à 0.")
+            return self.input_player()
+        else:
+            return last_name, first_name, date_of_birth, gender, ranking
 
     def input_round(self):
         print()
