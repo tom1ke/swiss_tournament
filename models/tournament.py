@@ -1,4 +1,4 @@
-from util import NUMBER_OF_ROUNDS
+from util import NUMBER_OF_ROUNDS, BLITZ, BULLET, RAPID
 
 
 class Tournament:
@@ -8,11 +8,17 @@ class Tournament:
                  location,
                  start_date,
                  end_date,
-                 time_control,
                  description,
+                 time_control=None,
                  round_total=NUMBER_OF_ROUNDS,
                  round_list=None,
                  player_list=None):
+        if time_control == BLITZ:
+            time_control = "Blitz"
+        if time_control == BULLET:
+            time_control = "Bullet"
+        if time_control == RAPID:
+            time_control = "Coup rapide"
         if round_list is None:
             round_list = []
         if player_list is None:
@@ -21,8 +27,8 @@ class Tournament:
         self.location = location
         self.start_date = start_date
         self.end_date = end_date
-        self.time_control = time_control
         self.description = description
+        self.time_control = time_control
         self.round_total = round_total
         self.round_list = round_list
         self.player_list = player_list
@@ -45,8 +51,8 @@ class Tournament:
             "location": self.location,
             "start_date": self.start_date,
             "end_date": self.end_date,
-            "time_control": self.time_control,
             "description": self.description,
+            "time_control": self.time_control,
             "round_total": self.round_total,
             "round_list": self.serialize_round_list(),
             "player_list": self.serialize_player_list()
