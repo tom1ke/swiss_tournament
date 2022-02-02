@@ -1,4 +1,4 @@
-from itertools import chain
+from itertools import chain, cycle, combinations
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
@@ -212,8 +212,10 @@ class Controller:
                     player_1.index,
                     player_2.index,
                 ] and match_.player_2.index in [player_1.index, player_2.index]:
-                    lower_half.remove(lower_half[1])
+                    lower_half_iterable = iter(lower_half)
+                    player_2 = next(lower_half_iterable)
             pair = Match(player_1, player_2)
+            played_matches.append(pair)
             match_list.append(pair)
         return match_list
 
