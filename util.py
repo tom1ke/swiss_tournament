@@ -23,6 +23,7 @@ Date & time setup
 def get_time():
     return datetime.now().isoformat(' ', 'seconds')
 
+
 """
 Main menu options
 """
