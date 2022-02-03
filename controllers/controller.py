@@ -48,7 +48,7 @@ class Controller:
                     else:
                         current_round = Round(self.view.input_round())
                         current_tournament.round_list.append(current_round)
-                        self.match_players(current_tournament.player_list, current_round.match_list)
+                        current_round.match_list = self.match_players(current_tournament)
                         current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
 
                         TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(),
@@ -57,7 +57,8 @@ class Controller:
                         self.view.output_generic(current_tournament)
 
                 except IndexError:
-                    self.view.no_data()
+                    raise IndexError
+                    # self.view.no_data()
 
             elif operation == ENTER_RESULTS:
                 try:
@@ -69,6 +70,7 @@ class Controller:
                     else:
                         self.update_scores(current_round, current_tournament)
                         self.complete_round(current_round)
+                        current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
 
                         TABLE_TOURNAMENTS.update(current_tournament.serialize_tournament(),
                                                  doc_ids=[last_tournament.doc_id])
@@ -82,6 +84,7 @@ class Controller:
                 try:
                     last_tournament = TABLE_TOURNAMENTS.all()[-1]
                     current_tournament = self.load_tournament(last_tournament)
+                    current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
                     self.view.output_generic(current_tournament)
 
                 except IndexError:
@@ -200,24 +203,44 @@ class Controller:
     def sort_players_by_name(self, player_list):
         return sorted(player_list, key=lambda player: (player.last_name, player.first_name))
 
-    def match_players(self, player_list, match_list):
-        sorted_players = self.sort_players_by_rank(player_list)
-        upper_half = sorted_players[:len(sorted_players) // 2]
-        lower_half = sorted_players[len(sorted_players) // 2:]
+    def match_players(self, tournament):
+        round_match_list = []
+        sorted_players = self.sort_players_by_rank(tournament.player_list)
 
-        for player_1, player_2 in zip(upper_half, lower_half):
+        if len(tournament.round_list) == 1:
+            half_number_of_players = len(sorted_players) // 2
+
+            for i in range(half_number_of_players):
+                player_1 = sorted_players[i]
+                player_2 = sorted_players[i+half_number_of_players]
+                pair = Match(player_1, player_2)
+                round_match_list.append(pair)
+
+        elif len(tournament.round_list) > 1:
             played_matches = self.check_played_matches()
-            for match_ in played_matches:
-                while match_.player_1.index in [
-                    player_1.index,
-                    player_2.index,
-                ] and match_.player_2.index in [player_1.index, player_2.index]:
-                    lower_half_iterable = iter(lower_half)
-                    player_2 = next(lower_half_iterable)
-            pair = Match(player_1, player_2)
-            played_matches.append(pair)
-            match_list.append(pair)
-        return match_list
+            used_players = []
+
+            for i in range(len(sorted_players)):
+                if i % 2 == 0:
+                    player_1 = sorted_players[i]
+                    player_2 = sorted_players[i+1]
+
+                    used_players.extend([player_1.index, player_2.index])
+
+                    for match_ in played_matches:
+                        while match_.player_1.index in [
+                            player_1.index,
+                            player_2.index,
+                        ] and match_.player_2.index in [player_1.index, player_2.index]:
+                            if len(round_match_list) < 3:
+                                player_2 = sorted_players[i+2]
+                            else:
+                                player_2 = sorted_players[i-1]
+
+                    pair = Match(player_1, player_2)
+                    round_match_list.append(pair)
+
+        return round_match_list
 
     def check_played_matches(self):
         last_tournament = TABLE_TOURNAMENTS.all()[-1]
