@@ -65,9 +65,9 @@ class Controller:
 
             elif operation == GENERATE_ROUND:
                 """
-                Instancie le dernier tournoi disponible en base de données et génère le prochain tour si le nombre de 
+                Instancie le dernier tournoi disponible en base de données et génère le prochain tour si le nombre de
                 tour maximum n'est pas atteint
-                Met à jour le tournoi en base de données 
+                Met à jour le tournoi en base de données
                 """
                 try:
                     last_tournament = TABLE_TOURNAMENTS.all()[-1]
@@ -91,8 +91,8 @@ class Controller:
 
             elif operation == ENTER_RESULTS:
                 """
-                Instancie le dernier tournoi disponible en base de données, sauf si aucune donnée n'est disponible, et 
-                permet de mettre à jour les résultats des matchs du dernier tour disponible si celui-ci n'est pas 
+                Instancie le dernier tournoi disponible en base de données, sauf si aucune donnée n'est disponible, et
+                permet de mettre à jour les résultats des matchs du dernier tour disponible si celui-ci n'est pas
                 clôturé
                 Met à jour le tournoi en base de données
                 """
@@ -157,7 +157,7 @@ class Controller:
 
             if report_op == ALL_ACTORS:
                 """
-                Affiche la liste de tous les acteurs enregistrés danns la table des joueurs, par ordre alphabétique ou 
+                Affiche la liste de tous les acteurs enregistrés danns la table des joueurs, par ordre alphabétique ou
                 par classement sauf si aucune donnée n'est disponible en base de données
                 """
                 player_list = self.display_mode(self.load_players_from_db())
@@ -179,7 +179,7 @@ class Controller:
 
             elif report_op == PLAYERS:
                 """
-                L'utilisateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la 
+                L'utilisateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la
                 liste de ses joueurs, sauf si aucune donnée n'est disponible au sein du tournoi
                 """
                 try:
@@ -191,7 +191,7 @@ class Controller:
 
             elif report_op == ROUNDS:
                 """
-                L'utiliateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la 
+                L'utiliateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la
                 liste de ses tours, sauf si aucune donnée n'est disponible au sein du tournoi
                 """
                 try:
@@ -203,7 +203,7 @@ class Controller:
 
             elif report_op == MATCHES:
                 """
-                L'utiliateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la 
+                L'utiliateur choisi un tournoi avec son index (disponible dans la liste des tournois) et affiche la
                 liste de ses matchs, sauf si aucune donnée n'est disponible au sein du tournoi
                 """
                 try:
