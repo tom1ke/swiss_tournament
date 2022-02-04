@@ -15,21 +15,19 @@ Programme de gestion de Tournois Suisses
 
     source env/bin/activate
 
-- Pour installer les modules et paquets nécessaires automatiquement, utiliser la commande 
+- Pour installer les modules et paquets nécessaires automatiquement, utiliser la commande
 
-    
+   
     pip install -r requirements.txt
-
 
 ## Exécution du programme
 
 - Ouvrir un terminal
 - Se positionner à la racine du projet
-- Lancer le programme avec la commande 
+- Lancer le programme avec la commande
 
 
     python3 main.py
-
 
 ## Paramétrage du programme
 
@@ -42,7 +40,7 @@ moitié du nombre de joueurs
 Pour cela, il faudra modifier certaines variables du fichier util.py à la racine du projet.
 
 - Ouvrir le fichier util.py avec un éditeur de texte ou un IDE
-- Pour le nombre de tours par défaut, changer la valeur par un autre nombre entier de 
+- Pour le nombre de tours par défaut, changer la valeur par un autre nombre entier de
 
 
     NUMBER_OF_ROUNDS = 4
@@ -51,7 +49,6 @@ Pour cela, il faudra modifier certaines variables du fichier util.py à la racin
 
 
     NUMBER_OF_PLAYERS = 8
-
 
 ## Utiisation de Flake8
 
