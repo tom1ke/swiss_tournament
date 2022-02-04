@@ -1,10 +1,12 @@
-from itertools import chain, cycle, combinations
+from itertools import chain
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
 from models.round import Round
 from models.match import Match
-from util import *
+from util import TABLE_TOURNAMENTS, TABLE_PLAYERS, NUMBER_OF_ROUNDS, NUMBER_OF_PLAYERS, CREATE_TOURNAMENT, \
+    GENERATE_ROUND, ENTER_RESULTS, LOAD_PREVIOUS_STATE, REPORTS, QUIT, ALL_ACTORS, TOURNAMENTS, PLAYERS, ROUNDS, \
+    MATCHES, MAIN_MENU, COMPLETED, SORT_ALPHA, SORT_RANK
 
 
 class Controller:
