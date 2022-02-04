@@ -2,7 +2,7 @@ from datetime import datetime
 from tinydb import TinyDB
 
 """
-Initialisation de la base de données TinyDB. 
+Initialisation de la base de données TinyDB 
 Le fichier .json est créé à la racine du projet 
 Il contient une table de tournois et une table de joueurs
 """
