@@ -86,14 +86,16 @@ class Controller:
                         self.view.output_generic(current_tournament)
 
                 except IndexError:
+                    """
+                    Si aucun tournoi n'est enregistré dans la base de données
+                    """
                     raise IndexError
                     # self.view.no_data()
 
             elif operation == ENTER_RESULTS:
                 """
-                Instancie le dernier tournoi disponible en base de données, sauf si aucune donnée n'est disponible, et
-                permet de mettre à jour les résultats des matchs du dernier tour disponible si celui-ci n'est pas
-                clôturé
+                Instancie le dernier tournoi disponible en base de données et permet de mettre à jour les résultats
+                des matchs du dernier tour disponible si celui-ci n'est pas clôturé
                 Met à jour le tournoi en base de données
                 """
                 try:
@@ -113,12 +115,14 @@ class Controller:
                         self.view.output_generic(current_tournament)
 
                 except IndexError:
+                    """
+                    Si aucun tournoi n'est enregistré dans la base de données
+                    """
                     self.view.no_data()
 
             elif operation == LOAD_PREVIOUS_STATE:
                 """
-                Instancie le dernier tournoi disponible en base de données pour l'afficher, sauf si aucune donnée n'est
-                disponible
+                Instancie le dernier tournoi disponible en base de données pour l'afficher
                 """
                 try:
                     last_tournament = TABLE_TOURNAMENTS.all()[-1]
@@ -127,6 +131,9 @@ class Controller:
                     self.view.output_generic(current_tournament)
 
                 except IndexError:
+                    """
+                    Si aucun tournoi n'est enregistré dans la base de données
+                    """
                     self.view.no_data()
 
             elif operation == REPORTS:
@@ -380,6 +387,12 @@ class Controller:
         return list(chain(*all_match_lists))
 
     def update_scores(self, round_, tournament):
+        """
+        Met à jour les scores des joueurs sur les matchs d'un tour en fonction des entrées utilisateur via
+        View.input_results
+        :param round_: Instance de tour
+        :param tournament: Instance de tournoi
+        """
         for match_ in round_.match_list:
             results = (self.view.input_results(match_))
             match_.player_1_result = float(results[0])
@@ -405,7 +418,12 @@ class Controller:
             round_.completed = True
 
     def display_mode(self, list_to_sort):
-
+        """
+        Trie les éléments d'une liste d'instances de joueurs en ordre alphabétique ou par classement en fonction du
+        choix utilisateur
+        :param list_to_sort: Liste d'instances de joueurs
+        :return: Liste classée d'instances de joueurs
+        """
         display_mode = self.view.input_display_mode()
         if display_mode == SORT_ALPHA:
             list_to_sort = self.sort_players_by_name(list_to_sort)
