@@ -17,7 +17,7 @@ Programme de gestion de Tournois Suisses
 
 - Pour installer les modules et paquets nécessaires automatiquement, utiliser la commande
 
-   
+
     pip install -r requirements.txt
 
 ## Exécution du programme
