@@ -1,3 +1,7 @@
+#Centre Échecs
+
+Programme de gestion de Tournois Suisses
+
 ## Paramétrage 
 
 - Cloner le repository 
