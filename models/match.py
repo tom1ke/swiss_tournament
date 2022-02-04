@@ -23,7 +23,6 @@ class Match:
         self.player_2 = player_2
         self.player_1_result = player_1_result
         self.player_2_result = player_2_result
-        self.player_pair = ([self.player_1, self.player_1_result], [self.player_2, self.player_2_result])
 
     def __repr__(self):
         """
