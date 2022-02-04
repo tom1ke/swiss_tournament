@@ -9,7 +9,7 @@ from util import *
 
 class Controller:
     """
-    Classe permettant de créer un contrôleur
+    Classe représentant un contrôleur
     """
 
     def __init__(self):

@@ -2,7 +2,7 @@
 
 class Match:
     """
-    Classe pour créer une instance de match
+    Classe représentant un match
     """
 
     def __init__(self, player_1, player_2, player_1_result=None, player_2_result=None):

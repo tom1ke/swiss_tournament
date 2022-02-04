@@ -3,7 +3,7 @@ from util import get_time
 
 class Round:
     """
-    Classe pour créer une instance de tour
+    Classe représentant un tour
     """
 
     def __init__(self, name, match_list=None, start_time=None, end_time=None, completed=None):

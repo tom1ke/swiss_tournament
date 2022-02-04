@@ -2,26 +2,45 @@ from util import NUMBER_OF_PLAYERS
 
 
 class View:
+    """
+    Classe représentant une vue
+    """
 
     def welcome(self):
+        """
+        Message d'accueil du programme
+        """
         print()
         print("Centre Échecs : Bienvenue sur le gestionnaire de tournoi")
         print()
 
     def end_program(self):
+        """
+        Message de sortie du programme
+        """
         print("À bientôt !")
 
     def invalid_choice(self):
+        """
+        Message de choix d'option invalide
+        """
         print()
         print("Votre choix n'est pas valide, vous devez renseigner une option existante.")
         print()
 
     def no_data(self):
+        """
+        Message d'absence de donnée
+        """
         print()
         print("Aucune correspondance dans la base de données.")
         print()
 
     def input_main(self):
+        """
+        Affichage du menu principal
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print()
         print("Menu principal : ")
         print()
@@ -36,6 +55,11 @@ class View:
         return input("Entrez le numéro de l'option choisie : ")
 
     def input_tournament(self):
+        """
+        Affichage du menu de création de tournoi
+        Récupère et vérifie les entrées utilisateur nécessaires à l'instanciation d'un tournoi
+        :return: Tuple de chaîne de caractères correspondant aux données du tournoi
+        """
         print()
         print("Création d'un nouveau tournoi : ")
         print()
@@ -66,6 +90,10 @@ class View:
             return name, location, start_date, end_date, description, time_control
 
     def input_time_control(self):
+        """
+        Affichage du menu de choix du format de temps
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print("Sélectionnez le format de temps :")
         print("1. Blitz \n"
               "2. Bullet \n"
@@ -75,6 +103,11 @@ class View:
         return input("Entrez le numéro de l'option choisie : ")
 
     def input_player(self):
+        """
+        Affichage du menu de création de joueur
+        Récupère et vérifie les entrées utilisateur nécessaires à l'instanciation d'un joueur
+        :return: Tuple de chaîne de caractères correspondant aux données du joueur
+        """
         print()
         print(f"Ajoutez {NUMBER_OF_PLAYERS} joueurs au tournoi : ")
         print()
@@ -110,6 +143,11 @@ class View:
             return last_name, first_name, date_of_birth, gender, ranking
 
     def input_round(self):
+        """
+        Affichage du menu de créatin de tour
+        Récupère une entrée utilisateur
+        :return: Chaîne de caractères correspondant au nom du tour
+        """
         print()
         print("Génération du tour")
         print()
@@ -117,11 +155,19 @@ class View:
         return input("Nom du tour (ex : \"Round 1\") : ")
 
     def output_max_round(self):
+        """
+        Message de nombre de tour maximum atteint
+        """
         print()
         print("Tous les tours du tournoi ont été joués.")
         print()
 
     def input_results(self, match_):
+        """
+        Affichage du menu d'entrée des résultats d'un match
+        :param match_: Instance de match
+        :return: Tuple de résultats (float) des deux joueurs
+        """
         print()
         print(f"Entrez le résultat du match {match_} :")
         print()
@@ -131,11 +177,18 @@ class View:
         return player_1_result, player_2_result
 
     def output_results_done(self):
+        """
+        Message de tour déjà clôturé
+        """
         print()
         print("Ce tour à déjà été clôturé.")
         print()
 
     def input_completed_round(self):
+        """
+        Affichage du menu de mise à jour du statut de tour
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print()
         print("Le tour est-il terminé :")
         print()
@@ -146,6 +199,10 @@ class View:
         return input("Entrez le numéro de l'option choisie : ")
 
     def input_reports(self):
+        """
+        Affichage du menu de sélection des rapports
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print()
         print("Rapports :")
         print()
@@ -159,10 +216,18 @@ class View:
         return input("Entrez le numéro de l'option choisie : ")
 
     def input_reports_tournament_choice(self):
+        """
+        Menu de choix du tournoi à récupérer pour les rapports
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print()
         return input("Entrez le numéro du tournoi concerné (cf. Tournois enregistrés) : ")
 
     def input_display_mode(self):
+        """
+        Affichage du menu de choix du mode de sortie des rapports
+        :return: Chaîne de caractères correspondant au choix utilisateur
+        """
         print()
         print("Mode d'affichage :")
         print()
@@ -172,7 +237,18 @@ class View:
         return input("Entrez le numéro de l'option choisie : ")
 
     def output_generic(self, obj):
+        """
+        Affichage par défaut d'un objet
+        :param obj: Objet
+        :return: Affichage de l'objet
+        """
         return print(obj)
 
     def output_indexed(self, index, obj):
+        """
+        Affichage indexé d'un objet itérable
+        :param index: Index de la valeur
+        :param obj: Objet
+        :return: Affichage indexé de l'objet
+        """
         return print(index, obj)

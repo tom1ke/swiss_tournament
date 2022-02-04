@@ -2,7 +2,7 @@
 
 class Player:
     """
-    Classe pour créer une instance de joueur
+    Classe représentant un joueur
     """
 
     def __init__(self, last_name, first_name, date_of_birth, gender, ranking, score=0, index=None):

@@ -3,7 +3,7 @@ from util import NUMBER_OF_ROUNDS, BLITZ, BULLET, RAPID
 
 class Tournament:
     """
-    Classe pour créer une instance de tournoi
+    Classe représantant un tournoi
     """
 
     def __init__(self,
