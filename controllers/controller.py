@@ -1,4 +1,4 @@
-from itertools import chain
+from itertools import chain, cycle
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
@@ -361,31 +361,42 @@ class Controller:
                 unmatchable_players.append(player_1)
                 player_2 = self.get_matchable_player(sorted_players, used_players, unmatchable_players)
 
-                for match_ in played_matches:
-                    if match_.player_1.index in [
-                        player_1.index,
-                        player_2.index,
-                    ] and match_.player_2.index in [player_1.index, player_2.index]:
-                        unmatchable_players.append(player_2)
+                while self.validate_second_player(player_1, player_2, played_matches):
+                    unmatchable_players.append(player_2)
+                    player_2 = self.get_matchable_player(sorted_players,
+                                                         used_players,
+                                                         unmatchable_players)
+
+                    if player_2 is None:
+                        match_to_break = round_match_list[-1]
+                        used_players = list(filter(lambda x: x not in [match_to_break.player_1,
+                                                                       match_to_break.player_2],
+                                                   used_players))
+                        round_match_list.remove(match_to_break)
                         player_2 = self.get_matchable_player(sorted_players,
                                                              used_players,
                                                              unmatchable_players)
-
-                        if player_2 is None:
-                            match_to_break = round_match_list[-1]
-                            used_players = list(filter(lambda x: x not in [match_to_break.player_1,
-                                                                           match_to_break.player_2],
-                                                       used_players))
-                            round_match_list.remove(match_to_break)
-                            player_2 = self.get_matchable_player(sorted_players,
-                                                                 used_players,
-                                                                 unmatchable_players)
 
                 used_players.extend([player_1, player_2])
                 pair = Match(player_1, player_2)
                 round_match_list.append(pair)
 
         return round_match_list
+
+    def validate_second_player(self, player_1, player_2, played_matches):
+        """
+        Vérifie que les deux joueurs ne se sont pas déjà rencontrés
+        :param player_1: Instance de joueur
+        :param player_2: Instance de joueur
+        :param played_matches: Liste d'instance de matchs déjà joués
+        :return: Booléen
+        """
+        for match_ in played_matches:
+            if match_.player_1.index in [
+                        player_1.index,
+                        player_2.index,
+                    ] and match_.player_2.index in [player_1.index, player_2.index]:
+                return True
 
     def get_matchable_player(self, sorted_players, used_players, unmatchable_players):
         """
