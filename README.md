@@ -57,7 +57,7 @@ Il est possible d'utiliser Flake8 afin de vérifier la conformité du projet ave
 Pour générer un rapport HTML via Flake8, utiliser la commande
 
 
-    flake8 --format=html --htmldir=flake8_rapport --exclude=env/ --max-line-lenght=119
+    flake8 --format=html --htmldir=flake8_rapport --exclude=env/ --max-line-length=119
 
 Le rapport généré se trouvera dans le dossier *flake8_rapport* à la racine du projet.
 
