@@ -142,7 +142,7 @@ class View:
         else:
             return last_name, first_name, date_of_birth, gender, ranking
 
-    def input_round(self):
+    def input_round(self, tournament):
         """
         Affichage du menu de créatin de tour
         Récupère une entrée utilisateur
@@ -152,7 +152,9 @@ class View:
         print("Génération du tour")
         print()
 
-        return input("Nom du tour (ex : \"Round 1\") : ")
+        round_number = str(len(tournament.round_list) + 1)
+
+        return "Round " + round_number
 
     def output_max_round(self):
         """
@@ -160,6 +162,11 @@ class View:
         """
         print()
         print("Tous les tours du tournoi ont été joués.")
+        print()
+
+    def output_previous_round_not_completed(self):
+        print()
+        print("Le tour précédent n'est pas clôturé.")
         print()
 
     def input_results(self, match_):
@@ -173,6 +180,16 @@ class View:
         print()
         player_1_result = input(f"{match_.player_1.first_name} {match_.player_1.last_name} : ")
         player_2_result = input(f"{match_.player_2.first_name} {match_.player_2.last_name} : ")
+
+        if player_1_result not in ["1", "0.5", "0"] or player_2_result not in ["1", "0.5", "0"]:
+            print("Les résultats doivent être 1, 0.5 ou 0.")
+            return self.input_results(match_)
+        elif player_1_result == "1" and player_2_result == "1":
+            print("Il ne peut pas y avoir deux gagnants.")
+            return self.input_results(match_)
+        elif player_1_result == "0" and player_2_result == "0":
+            print("Il ne peut pas y avoir deux perdants.")
+            return self.input_results(match_)
 
         return player_1_result, player_2_result
 
