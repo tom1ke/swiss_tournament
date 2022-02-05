@@ -30,7 +30,7 @@ class View:
 
     def no_data(self):
         """
-        Message d'absence de donnée
+        Message d'absence de données
         """
         print()
         print("Aucune correspondance dans la base de données.")
@@ -165,6 +165,9 @@ class View:
         print()
 
     def output_previous_round_not_completed(self):
+        """
+        Message de tour précédent non clôturé
+        """
         print()
         print("Le tour précédent n'est pas clôturé.")
         print()
