@@ -72,10 +72,12 @@ class Controller:
                 try:
                     last_tournament = TABLE_TOURNAMENTS.all()[-1]
                     current_tournament = self.load_tournament(last_tournament)
-                    if len(current_tournament.round_list) >= NUMBER_OF_ROUNDS:
+                    if self.check_if_max_round(current_tournament):
                         self.view.output_max_round()
+                    elif not self.check_if_previous_round_completed(current_tournament):
+                        self.view.output_previous_round_not_completed()
                     else:
-                        current_round = Round(self.view.input_round())
+                        current_round = Round(self.view.input_round(current_tournament))
                         current_tournament.round_list.append(current_round)
                         current_round.match_list = self.match_players(current_tournament)
                         current_tournament.player_list = self.sort_players_by_rank(current_tournament.player_list)
@@ -89,8 +91,7 @@ class Controller:
                     """
                     Si aucun tournoi n'est enregistré dans la base de données
                     """
-                    raise IndexError
-                    # self.view.no_data()
+                    self.view.no_data()
 
             elif operation == ENTER_RESULTS:
                 """
@@ -387,6 +388,13 @@ class Controller:
         return round_match_list
 
     def get_matchable_player(self, sorted_players, used_players, unmatchable_players):
+        """
+        Trouve un joueur remplissant les conditions de disponibilité pour un match
+        :param sorted_players: Liste d'instances de joueurs classée
+        :param used_players: Liste d'instances de joueurs
+        :param unmatchable_players: Liste d'instances de joueurs
+        :return: None ou Instance de joueur si les conditions sont remplies
+        """
         default_value = None
         return next(
             (
@@ -407,6 +415,26 @@ class Controller:
         current_tournament = self.load_tournament(last_tournament)
         all_match_lists = [round_.match_list for round_ in current_tournament.round_list]
         return list(chain(*all_match_lists))
+
+    def check_if_previous_round_completed(self, tournament):
+        """
+        Vérifie si le tour précédent du tournoi est clôturé
+        :param tournament: Instance de tournoi
+        :return: Booléen
+        """
+        try:
+            previous_round = tournament.round_list[-1]
+            return bool(previous_round.completed)
+        except IndexError:
+            return True
+
+    def check_if_max_round(self, tournament):
+        """
+        Vérifie si le nombre de tours à été atteint
+        :param tournament: Instance de tournoi
+        :return: Booléen
+        """
+        return len(tournament.round_list) >= NUMBER_OF_ROUNDS
 
     def update_scores(self, round_, tournament):
         """
