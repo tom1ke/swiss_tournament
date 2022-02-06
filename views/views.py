@@ -241,7 +241,15 @@ class View:
         :return: Chaîne de caractères correspondant au choix utilisateur
         """
         print()
-        return input("Entrez le numéro du tournoi concerné (cf. Tournois enregistrés) : ")
+        tournament_number = input("Entrez le numéro du tournoi concerné (cf. Tournois enregistrés) : ")
+
+        try:
+            tournament_number = int(tournament_number)
+        except ValueError:
+            print("Le numéro du tournoi doit être un chiffre.")
+            return self.input_reports_tournament_choice()
+
+        return tournament_number
 
     def input_display_mode(self):
         """
