@@ -1,4 +1,4 @@
-from itertools import chain, cycle
+from itertools import chain
 from views.views import View
 from models.tournament import Tournament
 from models.player import Player
