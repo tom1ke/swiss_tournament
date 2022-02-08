@@ -25,7 +25,7 @@ class Controller:
         """
         Métode d'exécution du programme
         Appelle View.welcome et View.end_program pour les messages d'accueil et de sortie
-        Appelle Controller.run_main pour le menu principal
+        Appelle Controller.run_main_menu pour le menu principal
         """
         self.view.welcome()
 
